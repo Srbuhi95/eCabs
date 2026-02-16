@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -25,8 +25,8 @@ jobs:
       - name: Run Cucumber Tests
         run: npx cucumber-js
 
-      - name: Upload logs
-        uses: actions/upload-artifact@v4   # <- Updated to v4
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
         with:
           name: test-logs
           path: logs/test.log
