@@ -1,35 +1,31 @@
-name: Playwright Cucumber Tests
+name: Run Cucumber Tests
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18]
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Run API and UI Tests
-        run: npm run run-all
+      - name: Run Cucumber Tests
+        run: npx cucumber-js
 
-      - name: Archive Test Logs
+      - name: Upload logs
         uses: actions/upload-artifact@v3
         with:
           name: test-logs
