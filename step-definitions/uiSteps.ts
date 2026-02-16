@@ -1,34 +1,38 @@
 import { Given, When, Then } from '@cucumber/cucumber';
-import { expect } from '@playwright/test';
-import { ContactPage } from '../src/pages/ContactPage';
+import { LoginPage } from '../src/pages/LoginPage';
 import { config } from '../src/config/config';
+import { expect } from '@playwright/test';
 
-let contactPage: ContactPage;
+let loginPage: LoginPage;
 
-Given('I open the contact page', async function () {
-  contactPage = new ContactPage(this.page);
-  await contactPage.navigate(config.uiUrl);
+Given('I open the OrangeHRM login page', async function () {
+  loginPage = new LoginPage(this.page);
+  await loginPage.navigate(config.uiUrl);
 });
 
-When('I fill the form with valid data', async function () {
-  await contactPage.fillForm('John Doe', 'john@test.com', 'Test message');
+When('I enter username {string} and password {string}', async function (username, password) {
+  await loginPage.enterUsername(username);
+  await loginPage.enterPassword(password);
 });
 
-When('I submit the form', async function () {
-  await contactPage.submit();
+When('I leave username and password empty', async function () {
+  // nothing to do
 });
 
-When('I submit the form without filling fields', async function () {
-  await contactPage.submit();
+When('I click login', async function () {
+  await loginPage.clickLogin();
 });
 
-Then('success message should be displayed', async function () {
-  await this.page.waitForSelector('.alert-success');
-  const message = await this.page.textContent('.alert-success');
-  expect(message).toBeTruthy();
+Then('I should see the dashboard page', async function () {
+  await loginPage.verifyDashboardVisible();
 });
 
-Then('validation message should be displayed', async function () {
-  const errorVisible = await this.page.isVisible('.error');
-  expect(errorVisible).toBeTruthy();
+Then('I should see an error message', async function () {
+  await loginPage.verifyErrorMessageVisible();
+});
+
+
+Then('I should see required field validation messages', async function () {
+  const page = this.page;
+  await expect(page.locator('span:has-text("Required")').first()).toBeVisible();
 });

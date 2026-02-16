@@ -1,12 +1,19 @@
-Feature: Contact Form Testing
+Feature: Login functionality on OrangeHRM demo
 
-  Scenario: Submit form successfully
-    Given I open the contact page
-    When I fill the form with valid data
-    And I submit the form
-    Then success message should be displayed
+  Scenario: Successful login
+    Given I open the OrangeHRM login page
+    When I enter username "Admin" and password "admin123"
+    And I click login
+    Then I should see the dashboard page
 
-  Scenario: Submit form without required fields
-    Given I open the contact page
-    When I submit the form without filling fields
-    Then validation message should be displayed
+  Scenario: Login with invalid credentials
+    Given I open the OrangeHRM login page
+    When I enter username "Wrong" and password "Wrong123"
+    And I click login
+    Then I should see an error message
+
+  Scenario: Login with empty fields
+    Given I open the OrangeHRM login page
+    When I leave username and password empty
+    And I click login
+    Then I should see required field validation messages
