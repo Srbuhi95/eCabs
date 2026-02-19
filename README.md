@@ -20,8 +20,8 @@ This project contains automated tests for the OpenWeather API and a web contact 
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+git clone https://github.com/Srbuhi95/eCabs.git
+cd eCabs
 Install dependencies:
 
 npm install
